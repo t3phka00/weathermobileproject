@@ -60,6 +60,11 @@ fun WeatherScreen(
     val isLoading by viewModel.isLoading.observeAsState(false)
     val errorMessage by viewModel.errorMessage.observeAsState()
 
+    fun celsiusToFahrenheit(celsius: Double): String {
+        val fahrenheit = celsius * (9.0 / 5.0) + 32
+        return String.format("%.1f", fahrenheit)
+    }
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -83,7 +88,6 @@ fun WeatherScreen(
 
                 Spacer(modifier = Modifier.height(8.dp))
 
-                // Unit system selector
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceEvenly,
@@ -132,7 +136,13 @@ fun WeatherScreen(
                             )
                         )
                         Text(
-                            text = "Temperature: ${data.main.temp}°${if (unitSystem == "metric") "C" else "F"}",
+                            text = "Temperature: ${
+                                if (unitSystem == "metric") {
+                                    "${data.main.temp}°C"
+                                } else {
+                                    "${celsiusToFahrenheit(data.main.temp)}°F"
+                                }
+                            }",
                             style = MaterialTheme.typography.bodyMedium.copy(color = DarkBlue)
                         )
                         Text(

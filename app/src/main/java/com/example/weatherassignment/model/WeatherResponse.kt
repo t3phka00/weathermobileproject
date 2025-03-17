@@ -24,14 +24,13 @@ data class WeatherCondition(
     val description: String
 )
 
-// Retrofit service interface
 interface WeatherApiService {
 
     @GET("weather")
     suspend fun fetchWeatherData(
         @Query("q") cityName: String,
         @Query("appid") apiKey: String = WEATHER_API_KEY,
-        @Query("units") unitSystem: String = "metric" // Default to metric (Celsius)
+        @Query("units") unitSystem: String = "metric" //default as degrees c
     ): WeatherData
 
     companion object {
